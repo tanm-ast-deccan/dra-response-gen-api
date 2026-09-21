@@ -1,0 +1,20 @@
+services:
+  dra-api:
+    build: .
+    image: dra-harness-api:latest
+    env_file: .env
+    ports:
+      - "127.0.0.1:8000:8000"   # bind to loopback; put TLS/reverse proxy in front
+    volumes:
+      - dra-data:/data          # named volume: run history survives redeploys
+    restart: unless-stopped
+    # Containment for model-generated code:
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 4g
+    pids_limit: 512
+
+volumes:
+  dra-data:

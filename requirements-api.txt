@@ -1,0 +1,34 @@
+# Runtime deps for the dra_harness HTTP API only.
+# Deliberately narrower than the repo-wide requirements.txt, which pulls in
+# arch / yfinance / scikit-learn / matplotlib for the scoring and analysis
+# scripts that the API never imports.
+
+# ── API layer ────────────────────────────────────────────────────────
+fastapi==0.141.1
+uvicorn[standard]==0.53.0
+pydantic==2.13.5
+
+# ── Model access + agent tools ───────────────────────────────────────
+openai==2.53.0            # OpenRouter is OpenAI-compatible
+fastmcp==4.0.4            # exec_server transport
+duckduckgo-search==8.1.1  # web_search fallback
+
+# ── Document IO (file_gen + read_file) ───────────────────────────────
+python-docx==1.1.2
+openpyxl==3.1.5
+python-pptx==1.0.2
+pdfplumber==0.11.9
+pdfminer.six==20251230
+PyMuPDF==1.25.5           # NOTE: provides `import fitz`. The repo's
+                          # requirements.txt pins `fitz==0.0.1.dev2`, which is
+                          # an unrelated placeholder package and will NOT
+                          # satisfy file_gen.py's `import fitz`.
+
+# ── Google Drive resolution ──────────────────────────────────────────
+google-api-python-client==2.190.0
+google-auth-oauthlib==1.3.1
+
+# ── Analysis libs the agent's python_execute commonly reaches for ────
+pandas==2.2.3
+numpy==2.1.3
+matplotlib==3.9.2
